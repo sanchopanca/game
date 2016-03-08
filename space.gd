@@ -27,8 +27,8 @@ func _process(delta):
 		ship_position.y += space_ship_speed * delta
 		target = ship_position
 	if ship_position != target:
-		
-		ship.rotate(ship.get_angle_to(target) + 3.1415)  # TODO hardcoded PI
+		if distance_to_target() > 2.0:
+			ship.rotate(ship.get_angle_to(target) + 3.1415)  # TODO hardcoded PI
 		if target.x > ship_position.x:
 			ship_position.x += space_ship_speed * delta
 		if target.x < ship_position.x:
@@ -44,3 +44,7 @@ func _input(event):
 		# var screen_position = get_pos()
 		#print(event.global_pos, " ", screen_position)
 		target = event.pos
+
+func distance_to_target():
+	var ship_pos = get_node("ship").get_pos()
+	return sqrt((target.x - ship_pos.x) * (target.x - ship_pos.x) + (target.y - ship_pos.y) * (target.y - ship_pos.y))
