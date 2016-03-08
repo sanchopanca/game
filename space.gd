@@ -11,7 +11,8 @@ func _ready():
 	target = get_node("ship").get_pos()
 
 func _process(delta):
-	var ship_position = get_node("ship").get_pos()
+	var ship = get_node("ship")
+	var ship_position = ship.get_pos()
 	print(ship_position)
 	if Input.is_action_pressed("move_left"):
 		ship_position.x -= space_ship_speed * delta
@@ -25,14 +26,17 @@ func _process(delta):
 	if Input.is_action_pressed("move_down"):
 		ship_position.y += space_ship_speed * delta
 		target = ship_position
-	if target.x > ship_position.x:
-		ship_position.x += space_ship_speed * delta
-	if target.x < ship_position.x:
-		ship_position.x -= space_ship_speed * delta
-	if target.y > ship_position.y:
-		ship_position.y += space_ship_speed * delta
-	if target.y < ship_position.y:
-		ship_position.y -= space_ship_speed * delta
+	if ship_position != target:
+		
+		ship.rotate(ship.get_angle_to(target) + 3.1415)  # TODO hardcoded PI
+		if target.x > ship_position.x:
+			ship_position.x += space_ship_speed * delta
+		if target.x < ship_position.x:
+			ship_position.x -= space_ship_speed * delta
+		if target.y > ship_position.y:
+			ship_position.y += space_ship_speed * delta
+		if target.y < ship_position.y:
+			ship_position.y -= space_ship_speed * delta
 	get_node("ship").set_pos(ship_position)
 
 func _input(event):
